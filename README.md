@@ -5,17 +5,17 @@ Esta es una libería PHP para facilitar el uso de la API de SMSC (http://smsc.co
 
 -----------
 
-# Instalación
+## Instalación
 
-## Composer
+### Composer
 
-### Instalar Composer
+#### Instalar Composer
 
 ```bash
 curl -sS https://getcomposer.org/installer | php
 ```
 
-### Agregar SMSC via Composer
+#### Agregar SMSC via Composer
 
 Agrega a tu archivo composer.json:
 
@@ -32,13 +32,13 @@ Agrega a tu archivo composer.json:
 
 ## ¡Comienza!
 
-## Utilizando los ejemplos
+### Utilizando los ejemplos
 
 Una vez que tienes tu cuenta SMSC (puedes solicitar una forma gratuita con 20 SMSC gratis), debes
 editar config.php con tus datos de acceso a la API (los obtienes aquí: http://www.smsc.com.ar/usuario/api/).
 Una vez que lo hayas completado, podrás probar los ejemplos de la carpeta examples.
 
-## Directo al punto
+### Usándolo en tu proyecto
 
 ```php
 try {
