@@ -1,0 +1,25 @@
+{
+    "name": "smsc/smsc-api-php",
+    "type": "library",
+    "description": "A PHP wrapper for SMSC API",
+    "keywords": ["sms", "smsc", "api"],
+    "homepage": "https://github.com/smsc/smsc-api-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SMSC"
+        },
+        {
+            "name": "Pablo Reyes",
+            "email": "pablo@srtk.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+}
