@@ -5,7 +5,7 @@
  * @author Pablo Gabriel Reyes
  * @link https://smsc.com.ar/ Smsc
  * @link https://github.com/smsc/smsc-api-php Smsc on GitHub
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class Smsc
@@ -246,7 +246,7 @@ class Smsc
         if ($this->getPrioridad() > 0)
             $params[] = 'priority='.$this->getPrioridad();
         
-        $ret = $this->exec('enviar', '&'. implode('%', $params));
+        $ret = $this->exec('enviar', '&'. implode('&', $params));
         if (!$ret)
             return false;
         if ($this->getStatusCode() != 200)
