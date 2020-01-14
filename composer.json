@@ -15,8 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
-        "php-http/guzzle6-adapter": "^2.0"
+        "php": ">=7.3"r
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
