@@ -7,8 +7,9 @@
  * @link https://github.com/smsc/smsc-api-php Smsc on GitHub
  * @version 1.0.1
  */
+namespace Smsc;
 
-class Smsc
+class Client
 {
     /**
      * @var string ApiKey de SMSC

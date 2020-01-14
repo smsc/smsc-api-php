@@ -7,12 +7,9 @@
  * @link https://github.com/smsc/smsc-api-php Smsc on GitHub
  * @version 1.0.1
  */
+
 namespace Smsc;
 
-class Message
+class SmscException extends \Exception
 {
-    private $date;
-    private $priority;
-    private $text;
-    private $method = 'whatsapp';
 }
