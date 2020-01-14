@@ -27,6 +27,7 @@ class Smsc
     private $line = null;
     private $mensaje = '';
     private $return = '';
+    private $method ;
 
     public function  __construct($alias = null, $apikey = null) {
         if ($alias !== null)
@@ -211,6 +212,11 @@ class Smsc
         $this->mensaje = $mensaje;
     }
 
+    public function setMethod(string $method)
+    {
+        $this->method = $method;
+    }
+
     public function getLinea()
     {
         return $this->line;
@@ -239,13 +245,15 @@ class Smsc
     {
         $params[] = 'num='.implode(',', $this->numeros);
         $params[] = 'msj='.urlencode($this->mensaje);
-        
+
         if ($this->getLinea() > 0)
             $params[] = 'line='.$this->getLinea();
         
         if ($this->getPrioridad() > 0)
             $params[] = 'priority='.$this->getPrioridad();
-        
+        if ($this->method)
+            $params[] = 'method='.urlencode($this->method);
+
         $ret = $this->exec('enviar', '&'. implode('&', $params));
         if (!$ret)
             return false;
