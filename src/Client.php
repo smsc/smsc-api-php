@@ -232,7 +232,7 @@ class Client
 
     public function getPrioridad()
     {
-        return $this->line;
+        return $this->priority;
     }
     /**
      * @param int $priority 1 for low to 7 for high. null for default.
