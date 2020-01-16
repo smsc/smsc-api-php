@@ -10,7 +10,6 @@ namespace Smsc\Exceptions;
 
 use Smsc\Resources\SmsMessage;
 use Smsc\Resources\WhatsappMessage;
-use Smsc\SmscException;
 
 class CouldNotSendNotification extends SmscException
 {
