@@ -30,26 +30,11 @@ class CouldNotSendNotification extends SmscException
     /**
      * @return static
      */
-    public static function missingFrom(): self
-    {
-        return new static('Notification was not sent. Missing `from` number.');
-    }
-
-    /**
-     * @return static
-     */
     public static function invalidReceiver(): self
     {
         return new static(
             'The notifiable did not have a receiving phone number. Add a routeNotificationForSmsc
             method or a phone_number attribute to your notifiable.'
-        );
-    }
-
-    public static function missingAlphaNumericSender()
-    {
-        return new static(
-            'Notification was not sent. Missing `alphanumeric_sender` in config'
         );
     }
 }
