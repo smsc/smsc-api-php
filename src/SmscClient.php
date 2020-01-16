@@ -9,7 +9,7 @@
  */
 namespace Smsc;
 
-class Client
+class SmscClient
 {
     /**
      * @var string ApiKey de SMSC

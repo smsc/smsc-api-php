@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a45dbe8a-6014-4a21-97df-445c87073c42" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Resources/SmsMessage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Resources/WhatsappMessage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SmscConfig.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Resources/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SmscException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exceptions/SmscException.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/SmscClient.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
