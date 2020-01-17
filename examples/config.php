@@ -5,5 +5,8 @@
  * 
  * This configuration file is used by files located on 'examples' folder.
  */
-$user = 'user';
-$apikey = 'apikey';
+
+return [
+    'user' => 'YOUR_SMSC_ALIAS',
+    'apikey' => 'YOUR_SMSC_APIKEY'
+];
