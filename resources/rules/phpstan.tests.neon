@@ -7,17 +7,6 @@ includes:
 parameters:
 	bootstrap: %rootDir%/../../../resources/rules/phpstan-bootstrap.php
 	paths:
-		- tests/lib
+		- tests
 	level: 7
 	ignoreErrors:
-		- '#Access to an undefined property.+Eloquent.+#'
-		- '#Call to an undefined method.+Eloquent.+#'
-		- '#Call to an undefined method.*\\Builder\:\:firstOrFail\(\)#'
-		- '#Parameter \#1 \$json of function json_decode expects string, string\|false given#'
-		## problem $count and global
-		-
-			message: '#Call to method .*assertSame.*always evaluate to false.#'
-			paths:
-			    - %currentWorkingDirectory%/tests/lib/Features/EloquentOptimizedTest.php
-			    - %currentWorkingDirectory%/tests/lib/Extensions/LaravelModelCachingTest.php
-	reportUnmatchedIgnoredErrors: false
