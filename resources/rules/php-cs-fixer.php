@@ -1,5 +1,5 @@
 <?php
-$project_name = 'LaravelJsonApi';
+$project_name = 'Smsc';
 $config = require __DIR__.'/../../vendor/reyesoft/ci/php/rules/php-cs-fixer.dist.php';
 
 // rules override

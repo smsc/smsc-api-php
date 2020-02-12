@@ -2,11 +2,12 @@
 /**
  * Copyright (C) 1997-2020 Reyesoft <info@reyesoft.com>.
  *
- * This file is part of LaravelJsonApi. LaravelJsonApi can not be copied and/or
+ * This file is part of Smsc. Smsc can not be copied and/or
  * distributed without the express permission of Reyesoft
  */
 
 declare(strict_types=1);
+
 /**
  * SMSC Api.
  *
@@ -20,6 +21,8 @@ declare(strict_types=1);
 
 namespace Smsc;
 
+use Exception;
+
 class SmscClient
 {
     /**
@@ -32,16 +35,25 @@ class SmscClient
      */
     private $alias = '';
 
+    /** @var string */
     public $version = '0.3';
+    /** @var string */
     public $protocol = 'https';
 
+    /** @var mixed */
     private $priority;
+    /** @var int */
     private $line;
+    /** @var string */
     private $mensaje = '';
-    private $return = '';
+    /** @var array<mixed> */
+    private $return;
+    /** @var string */
     private $method;
+    /** @var array<string> */
+    private $numeros;
 
-    public function __construct($alias = null, $apikey = null)
+    public function __construct(string $alias = null, string $apikey = null)
     {
         if ($alias !== null) {
             $this->setAlias($alias);
@@ -51,44 +63,50 @@ class SmscClient
         }
     }
 
-    public function getApikey()
+    public function getApikey(): string
     {
         return $this->apikey;
     }
 
-    public function setApikey($apikey): void
+    public function setApikey(string $apikey): void
     {
         $this->apikey = $apikey;
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->alias;
     }
 
-    public function setAlias($alias): void
+    public function setAlias(string $alias): void
     {
         $this->alias = $alias;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getData()
     {
-        return $this->return['data'];
+        return array_key_exists('data', $this->return) ? $this->return['data'] : [];
     }
 
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->return['code'];
     }
 
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         return $this->return['message'];
     }
 
-    public function exec($cmd = null, $extradata = null)
+    /**
+     * @throws Exception
+     */
+    public function exec(string $cmd = null, string $extradata = null): bool
     {
-        $this->return = null;
+        $this->return = [];
 
         // construyo la URL de consulta
         $url = $this->protocol . '://www.smsc.com.ar/api/' . $this->version . '/?alias=' . $this->alias . '&apikey=' . $this->apikey;
@@ -104,14 +122,10 @@ class SmscClient
         $data = @file_get_contents($url . $url2);
         if ($data === false) {
             throw new Exception('No se pudo conectar al servidor.', 1);
-
-            return false;
         }
         $ret = json_decode($data, true);
         if (!is_array($ret)) {
             throw new Exception('Datos recibidos, pero no han podido ser reconocidos ("' . $data . '") (url2=' . $url2 . ').', 2);
-
-            return false;
         }
         $this->return = $ret;
 
@@ -120,6 +134,8 @@ class SmscClient
 
     /**
      * Estado del sistema SMSC.
+     *
+     * @throws Exception
      *
      * @return bool devuelve true si no hay demoras en la entrega
      */
@@ -131,8 +147,6 @@ class SmscClient
         }
         if ($this->getStatusCode() !== 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
-
-            return false;
         }
         $ret = $this->getData();
 
@@ -142,9 +156,11 @@ class SmscClient
     /**
      * Validar número.
      *
+     * @throws Exception
+     *
      * @return bool devuelve true si es un número válido
      */
-    public function evalNumero($prefijo, $fijo = null): bool
+    public function evalNumero(string $prefijo, string $fijo = null): bool
     {
         $ret = $this->exec('evalnumero', '&num=' . $prefijo . ($fijo === null ? '' : '-' . $fijo));
         if (!$ret) {
@@ -152,15 +168,18 @@ class SmscClient
         }
         if ($this->getStatusCode() !== 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
-
-            return false;
         }
         $ret = $this->getData();
 
         return $ret['estado'];
     }
 
-    public function getSaldo(): array
+    /**
+     * @throws Exception
+     *
+     * @return bool|array<string>
+     */
+    public function getSaldo()
     {
         $ret = $this->exec('saldo');
         if (!$ret) {
@@ -168,8 +187,6 @@ class SmscClient
         }
         if ($this->getStatusCode() !== 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
-
-            return false;
         }
         $ret = $this->getData();
 
@@ -178,8 +195,12 @@ class SmscClient
 
     /**
      * @param int $prioridad 0:todos 1:baja 2:media 3:alta
+     *
+     * @throws Exception
+     *
+     * @return bool|array<string>
      */
-    public function getEncolados($prioridad = 0): array
+    public function getEncolados($prioridad = 0)
     {
         $ret = $this->exec('encolados', '&prioridad=' . (int) $prioridad);
         if (!$ret) {
@@ -187,12 +208,10 @@ class SmscClient
         }
         if ($this->getStatusCode() !== 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
-
-            return false;
         }
         $ret = $this->getData();
 
-        return $ret['mensajes'];
+        return array_key_exists('mensajes', $ret) ? $ret['mensajes'] : [];
     }
 
     /**
@@ -210,18 +229,17 @@ class SmscClient
      */
     public function addNumero($prefijo, $fijo = null): void
     {
-        if ($fijo === null) {
-            $this->numeros[] = $prefijo;
-        } else {
-            $this->numeros[] = $prefijo . '-' . $fijo;
-        }
+        $this->numeros[] = $fijo === null ? (string) $prefijo : $prefijo . '-' . $fijo;
     }
 
-    public function getMensaje()
+    public function getMensaje(): string
     {
         return $this->mensaje;
     }
 
+    /**
+     * @param string $mensaje
+     */
     public function setMensaje($mensaje): void
     {
         $this->mensaje = $mensaje;
@@ -232,6 +250,9 @@ class SmscClient
         $this->method = $method;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLinea()
     {
         return $this->line;
@@ -245,6 +266,9 @@ class SmscClient
         $this->line = $line_id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPrioridad()
     {
         return $this->priority;
@@ -258,6 +282,11 @@ class SmscClient
         $this->priority = $priority;
     }
 
+    /**
+     * @throws Exception
+     *
+     * @return bool|mixed
+     */
     public function enviar()
     {
         $params[] = 'num=' . implode(',', $this->numeros);
@@ -300,6 +329,10 @@ class SmscClient
      * @param int $ultimoid si se especifica, el sistema sólo devuelve los SMS
      *                      más nuevos al sms con id especificado (acelera la
      *                      consulta y permite un chequeo rápido de nuevos mensajes)
+     *
+     * @throws Exception
+     *
+     * @return bool|mixed
      */
     public function getRecibidos($ultimoid = 0)
     {

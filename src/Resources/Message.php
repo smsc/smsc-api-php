@@ -2,11 +2,12 @@
 /**
  * Copyright (C) 1997-2020 Reyesoft <info@reyesoft.com>.
  *
- * This file is part of LaravelJsonApi. LaravelJsonApi can not be copied and/or
+ * This file is part of Smsc. Smsc can not be copied and/or
  * distributed without the express permission of Reyesoft
  */
 
 declare(strict_types=1);
+
 /**
  * SMSC Api.
  *
@@ -22,13 +23,13 @@ namespace Smsc\Resources;
 
 abstract class Message
 {
+    /** @var \DateTime */
     private $date;
+    /** @var string */
     private $priority;
+    /** @var string */
     private $method = 'whatsapp';
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $content = '';
 
     /**
@@ -39,7 +40,7 @@ abstract class Message
         $this->content = $content;
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }

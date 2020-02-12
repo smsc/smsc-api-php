@@ -8,8 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Smsc\Resources;
+namespace Smsc\Tests;
 
-class SmsMessage extends Message
+use PHPUnit\Framework\TestCase;
+
+class SmscClientTest extends TestCase
 {
 }
