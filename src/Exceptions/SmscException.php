@@ -1,10 +1,20 @@
 <?php
 /**
- * SMSC Api
+ * Copyright (C) 1997-2020 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of LaravelJsonApi. LaravelJsonApi can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
+/**
+ * SMSC Api.
  *
  * @author Pablo Gabriel Reyes
- * @link https://smsc.com.ar/ Smsc
- * @link https://github.com/smsc/smsc-api-php Smsc on GitHub
+ *
+ * @see https://smsc.com.ar/ Smsc
+ * @see https://github.com/smsc/smsc-api-php Smsc on GitHub
+ *
  * @version 1.0.1
  */
 

@@ -18,6 +18,5 @@ return $config
         PhpCsFixer\Finder::create()
         ->in('./src')
         ->notPath('./bootstrap/*.php')
-        ->in('./config')
         ->in('./tests')
     );
