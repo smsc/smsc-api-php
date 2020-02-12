@@ -1,0 +1,11 @@
+includes:
+	# - ../../vendor/phpstan/phpstan-strict-rules/rules.neon // @TODO
+	- ../../vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    bootstrap: %rootDir%/../../../resources/rules/phpstan-bootstrap.php
+    paths:
+        - src
+        - tests/dummy/app
+    level: 7
+    ignoreErrors:

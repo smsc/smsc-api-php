@@ -31,29 +31,31 @@ class SmscClient
     private $method ;
 
     public function  __construct($alias = null, $apikey = null) {
-        if ($alias !== null)
-            $this->setAlias ($alias);
-        if ($apikey !== null)
-            $this->setApikey ($apikey);
+        if ($alias !== null) {
+            $this->setAlias($alias);
+        }
+        if ($apikey !== null) {
+            $this->setApikey($apikey);
+        }
 
     }
 
     public function getApikey()
     {
-     return $this->apikey;
+        return $this->apikey;
     }
     public function setApikey($apikey)
     {
-     $this->apikey = $apikey;
+        $this->apikey = $apikey;
     }
 
     public function getAlias()
     {
-     return $this->alias;
+        return $this->alias;
     }
     public function setAlias($alias)
     {
-     $this->alias = $alias;
+        $this->alias = $alias;
     }
 
 
@@ -79,21 +81,21 @@ class SmscClient
         // construyo la URL de consulta
         $url = $this->protocol.'://www.smsc.com.ar/api/'.$this->version.'/?alias='.$this->alias.'&apikey='.$this->apikey;
         $url2 = '';
-        if ($cmd !== null)
+        if ($cmd !== null) {
             $url2 .= '&cmd='.$cmd;
-        if ($extradata !== null)
+        }
+        if ($extradata !== null) {
             $url2 .= $extradata;
+        }
 
         // hago la consulta
         $data = @file_get_contents($url.$url2);
-        if ($data === false)
-        {
+        if ($data === false) {
             throw new Exception('No se pudo conectar al servidor.', 1);
             return false;
         }
         $ret = json_decode($data, true);
-        if (!is_array($ret))
-        {
+        if (!is_array($ret)) {
             throw new Exception('Datos recibidos, pero no han podido ser reconocidos ("'.$data.'") (url2='.$url2.').', 2);
             return false;
         }
@@ -109,10 +111,10 @@ class SmscClient
     public function getEstado()
     {
         $ret = $this->exec('estado');
-        if (!$ret)
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
              throw new Exception($this->getStatusMessage(), $this->getStatusCode());
              return false;
         } else {
@@ -129,10 +131,10 @@ class SmscClient
     public function evalNumero($prefijo, $fijo = null)
     {
         $ret = $this->exec('evalnumero', '&num='.$prefijo.($fijo === null?'':'-'.$fijo));
-        if (!$ret)
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
              throw new Exception($this->getStatusMessage(), $this->getStatusCode());
              return false;
         } else {
@@ -149,10 +151,10 @@ class SmscClient
     public function getSaldo()
     {
         $ret = $this->exec('saldo');
-        if (!$ret)
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
             return false;
         } else {
@@ -170,10 +172,10 @@ class SmscClient
     public function getEncolados($prioridad = 0)
     {
         $ret = $this->exec('encolados', '&prioridad='.intval($prioridad));
-        if (!$ret)
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
             throw new Exception($this->getStatusMessage(), $this->getStatusCode());
             return false;
         } else {
@@ -198,10 +200,10 @@ class SmscClient
      */
     public function addNumero($prefijo, $fijo = null)
     {
-        if ($fijo === null)
+        if ($fijo === null) {
             $this->numeros[] = $prefijo;
-        else
-            $this->numeros[] = $prefijo.'-'.$fijo;
+        } else { $this->numeros[] = $prefijo.'-'.$fijo;
+        }
     }
 
     public function getMensaje()
@@ -247,19 +249,22 @@ class SmscClient
         $params[] = 'num='.implode(',', $this->numeros);
         $params[] = 'msj='.urlencode($this->mensaje);
 
-        if ($this->getLinea() > 0)
+        if ($this->getLinea() > 0) {
             $params[] = 'line='.$this->getLinea();
+        }
         
-        if ($this->getPrioridad() > 0)
+        if ($this->getPrioridad() > 0) {
             $params[] = 'priority='.$this->getPrioridad();
-        if ($this->method)
+        }
+        if ($this->method) {
             $params[] = 'method='.urlencode($this->method);
+        }
 
         $ret = $this->exec('enviar', '&'. implode('&', $params));
-        if (!$ret)
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
              throw new Exception($this->getStatusMessage(), $this->getStatusCode());
         } else {
             return $this->getData();
@@ -285,11 +290,11 @@ class SmscClient
      */
     public function getRecibidos($ultimoid = 0)
     {
-        $ret = $this->exec('recibidos', '&ultimoid='.(int)$ultimoid);
-        if (!$ret)
+        $ret = $this->exec('recibidos', '&ultimoid='.(int) $ultimoid);
+        if (!$ret) {
             return false;
-        if ($this->getStatusCode() != 200)
-        {
+        }
+        if ($this->getStatusCode() != 200) {
              throw new Exception($this->getStatusMessage(), $this->getStatusCode());
         } else {
             return $this->getData();

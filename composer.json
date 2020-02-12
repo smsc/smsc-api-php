@@ -7,22 +7,88 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "SMSC"
-        },
-        {
             "name": "Pablo Reyes",
             "email": "pablo@srtk.com"
+        },
+        {
+            "name": "Juan I Castellano",
+            "email": "juanicastellano14@gmail.com"
         }
     ],
     "require": {
         "php": ">=7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.3.*"
+        "phpunit/phpunit": "8.5.*",
+        "reyesoft/ci": "1.2.0",
+        "codedungeon/phpunit-result-printer": "0.26.2"
+    },
+    "extra": {
+        "coverage": {
+            "file": "./bootstrap/cache/clover.xml",
+            "thresholds": {
+                "global": {
+                    "lines": 100
+                }
+            }
+        }
     },
     "autoload": {
+        "classmap": [
+            "src/"
+        ],
         "psr-4": {
-            "Smsc\\": "src/Smsc"
+            "Smsc\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Smsc\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "autofix": "sh autofix.sh",
+        "ci": [
+            "@ci-php-cpd",
+            "@ci-double-spaces",
+            "@phpstan",
+            "@ci-php-csniffer",
+            "@ci-php-cs-fixer",
+            "@ci-php-md"
+        ],
+        "ci-php-cpd": "sh resources/ci/php-cpd.sh",
+        "ci-double-spaces": [
+            "sh vendor/reyesoft/ci/tools/find-double-spaces.sh src",
+            "sh vendor/reyesoft/ci/tools/find-double-spaces.sh tests"
+        ],
+        "ci-php-csniffer": "sh resources/ci/php-csniffer.sh",
+        "ci-php-csniffer-fix": "sh resources/ci/php-csniffer-fix.sh",
+        "ci-php-cs-fixer": "sh vendor/reyesoft/ci/php/scripts/php-cs-fixer.sh",
+        "ci-php-md": "sh resources/ci/php-md.sh",
+        "phpstan": [
+            "@phpstan-src",
+            "@phpstan-tests"
+        ],
+        "phpstan-src": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.src.neon src",
+        "phpstan-src-TODO": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.src.neon src tests/dummy",
+        "phpstan-tests": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.tests.neon tests/lib",
+
+        "ide-helper": [
+            "# php artisan ide-helper:meta --filename=bootstrap/cache/.phpstorm.meta.php",
+            "# php artisan ide-helper:generate bootstrap/cache/_ide_helper_meta.php"
+        ],
+        "ide-helper-models":[
+            "php artisan migrate",
+            "php artisan ide-helper:models --write",
+            "composer autofix"
+        ],
+        "coverage": [
+            "ulimit -Sn 50000 && phpdbg -d memory_limit=-1 -qrr ./vendor/bin/phpunit",
+            "php ./vendor/reyesoft/ci/tools/coverage-checker.php"
+        ],
+
+        "test": [
+            "./runtests"
+        ]
     }
 }

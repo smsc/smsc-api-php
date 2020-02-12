@@ -1,2 +1,2 @@
 <?php
-	include_once '../src/Smsc.php';
+    require_once '../src/Smsc.php';

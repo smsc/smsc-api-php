@@ -10,4 +10,4 @@ namespace Smsc\Resources;
 
 class SmsMessage extends Message
 {
- }
+}
