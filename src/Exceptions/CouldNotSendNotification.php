@@ -2,16 +2,18 @@
 /**
  * Copyright (C) 1997-2020 Reyesoft <info@reyesoft.com>.
  *
- * This file is part of Saldo.com.ar. Saldo.com.ar can not be copied and/or
+ * This file is part of Smsc. Smsc can not be copied and/or
  * distributed without the express permission of Reyesoft
  */
+
+declare(strict_types=1);
 
 namespace Smsc\Exceptions;
 
 use Smsc\Resources\SmsMessage;
 use Smsc\Resources\WhatsappMessage;
 
-class CouldNotSendNotification extends SmscException
+final class CouldNotSendNotification extends SmscException
 {
     /**
      * @param mixed $message
@@ -24,7 +26,8 @@ class CouldNotSendNotification extends SmscException
 
         return new static(
             "Notification was not sent. Message object class `{$className}` is invalid. It should
-            be either `" . SmsMessage::class . '` or `' . WhatsappMessage::class . '`');
+            be either `" . SmsMessage::class . '` or `' . WhatsappMessage::class . '`'
+        );
     }
 
     /**

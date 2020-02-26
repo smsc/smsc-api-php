@@ -1,0 +1,9 @@
+includes:
+	# - ../../vendor/phpstan/phpstan-strict-rules/rules.neon // @TODO
+
+parameters:
+    paths:
+        - src
+        - tests/dummy/app
+    level: 7
+    ignoreErrors:
